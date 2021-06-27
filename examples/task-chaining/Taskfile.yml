@@ -1,0 +1,13 @@
+tasks:
+  default:
+    cmds:
+      - task: task1 
+  
+  task1:
+    cmds:
+      - echo I am task1
+      - task: task2
+
+  task2:
+    cmds:
+      - echo I am task2

@@ -392,10 +392,8 @@ func (e *Executor) loopTasks(ctx context.Context, cmd *taskfile.Cmd) error {
 
 	var err error
 	if cmd.Loop.Parallel > 1 {
-		fmt.Println("Parallel")
 		err = e.runTaskLoopParallel(ctx, cmd, arglist)
 	} else {
-		fmt.Println("Sequential")
 		err = e.runTaskLoopSequential(ctx, cmd, arglist)
 	}
 

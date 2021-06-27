@@ -1,0 +1,22 @@
+vars:
+  BLENDER_DOCKER_IMAGE: docker.io/nytimes/blender:2.92-cpu-ubuntu18.04
+
+tasks:
+  default:
+    cmds: 
+      - loop:
+        range: [1, 10] 
+        run: render-frame
+        parallel: 2
+  
+  render-frame:
+    cmds:
+      - echo "Render Frame - {{.ARG}}"
+      - |
+        DCUID=`planetr dcu-run -w {{.BLENDER_DOCKER_IMAGE}} {{.INSTANCE_TYPE}}`
+        echo DCUID:$DCUID
+        planetr dcu-cp-to $DCUID {{.BLEND_FILE}} /home/
+        planetr dcu-exec $DCUID "blender -b /home/{{.BLEND_FILE}} -E CYCLES -noaudio -o /home/frame-# -F PNG -f {{.ARG}} >> /home/log"
+        planetr dcu-cp-from $DCUID /home/frame-{{.ARG}}.png ./frame-{{.ARG}}.png
+        planetr dcu-rm $DCUID
+      - echo "Frame {{.ARG}} done."

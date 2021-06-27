@@ -1,0 +1,7 @@
+tasks:
+  default:
+    cmds:
+      - echo "I am going to write 'HELLO WORLD' to a file named 'output.txt' now."
+      - echo "HELLO WORLD" > output.txt
+    generates:
+      - output.txt
