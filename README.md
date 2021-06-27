@@ -6,12 +6,9 @@
   <h1>Planetr Compose</h1>
 
   <p>
-  Task manager with parallel processing functionality based on a YAML task definition file designed for <a href="https://planetr.io">Planetr's decentralised network<a>.
+  Task manager with parallel processing functionality based on a YAML task definition file designed for <a href="https://planetr.io">Planetr's decentralised network<a>. See <a href="examples/">examples</a> to learn more.
   </p>
 
-  <p>
-    See <a href="examples/">examples</a> to learn more.
-  </p>
 </div>
 
 Credits: [https://github.com/go-task/task](https://github.com/go-task/task)
