@@ -24,7 +24,8 @@ tasks:
 ```
 
 ```INDX``` is the iteration number starting 1. 
-```ARG``` is the number within the range for teh iteration. 
+
+```ARG``` is the number within the range for the iteration. 
 
 ## Example (parallel)
 
@@ -48,7 +49,8 @@ Here, mytask will be executed in parallel with concurrency of 5. Loop command wi
 
 ### Range
 
-Iterate through numbers 1-100 and run ```task1``` 
+Iterate through numbers 1-100 and run ```task1```. 
+
 ```ARG``` will be the file number within the range.
 
 ```
@@ -60,7 +62,8 @@ Iterate through numbers 1-100 and run ```task1```
 
 ### Folder
 
-Iterate through all files in the folder (ignore sub folders) and run ```task1``` .
+Iterate through all files in the folder (ignore sub folders) and run ```task1```.
+
 ```ARG``` will be the file name.
 
 ```
@@ -72,8 +75,9 @@ Iterate through all files in the folder (ignore sub folders) and run ```task1```
 
 ### File
 
-Iterate through each line in the file and run ```task1``` 
-```ARG``` will be the line.
+Iterate through each line in the file and run ```task1```. 
+
+```ARG``` will be the contents of the line.
 
 ```
 - loop:
@@ -81,3 +85,7 @@ Iterate through each line in the file and run ```task1```
   run: task1
   parallel: 2
 ```
+
+## Examples
+
+There are many [examples](./examples/) for you to get started with planetr-compose.
