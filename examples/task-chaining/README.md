@@ -1,4 +1,4 @@
-# task chaining example
+# Task Chaining Example
 
 Refer [https://github.com/go-task/task](https://github.com/go-task/task) for more on task and command usage.
 
