@@ -22,6 +22,22 @@ This is a trimmed and adapted version of the above library in order to support p
 
 ```loop``` command is added to support the above feature.
 
+## Binaries
+
+Mac, Windows and Linux binaries are in [bin](bin/) folder. They are statically built without any dependancies.
+
+> Note: Binaries are bundled with [Planetr Gateway](https://planetr.io/) installers.
+
+## Build from source
+
+Clone the repository.
+
+```
+$ git clone https://github.com/planetrio/planetr-compose
+$ cd planetr-compose
+$ go run cmd/task/task.go 
+```
+
 ## Example (sequential)
 
 ```
