@@ -1,11 +1,22 @@
-# Planetr Compose
+<div align="center">
+  <a href="https://planetr.io">
+    <img src="planetr-compose-white.png"/>
+  </a>
 
-![Planetr Compose Logo](planetr-compose.png)
+  <h1>Planetr Compose</h1>
 
+  <p>
+    Task manager with support for parallel processing using yaml definition file adapted for parallel processing of <a href="https://planetr.io">Planetr decentralized network<a>.
+  </p>
 
-Task manager with support for parallel processing using yaml definition file
+  <p>
+    See <a href="examples/">examples</a> to learn more.
+  </p>
+</div>
 
 Credits: [https://github.com/go-task/task](https://github.com/go-task/task)
+
+
 
 This is a trimmed and adapted version of the above library in order to support parallel task processing on iteratables like numeric range, files and records in a file.
 
