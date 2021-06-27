@@ -1,4 +1,4 @@
-# Parallel Rendering of Blender Model
+# Parallel Rendering of Blender Model using Planetr
 
 In this example, a blender model ```.blend``` file is rendered in parallel using 2 Planetr DCU instances.
 
