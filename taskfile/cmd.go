@@ -9,9 +9,9 @@ type Cmd struct {
 	Cmd    string
 	Silent bool
 	Loop   struct {
-		Range    []int
-		Folder   string
-		File     string
+		Range    []int  //iterate start-to-end numbers
+		Folder   string //iterate file names in the folder
+		File     string //iterate line by line in the file
 		Run      string
 		Parallel int
 	}
@@ -51,8 +51,7 @@ func (c *Cmd) UnmarshalYAML(unmarshal func(interface{}) error) error {
 		return nil
 	}
 
-	//LOOP BEG
-	var looprangeStruct struct {
+	var loopStruct struct {
 		Range    []int
 		Folder   string
 		File     string
@@ -60,15 +59,14 @@ func (c *Cmd) UnmarshalYAML(unmarshal func(interface{}) error) error {
 		Run      string
 		Parallel int
 	}
-	if err := unmarshal(&looprangeStruct); err != nil {
+	if err := unmarshal(&loopStruct); err != nil {
 		return err
 	}
-	c.Loop.Range = looprangeStruct.Range
-	c.Loop.Folder = looprangeStruct.Folder
-	c.Loop.File = looprangeStruct.File
-	c.Loop.Run = looprangeStruct.Run
-	c.Loop.Parallel = looprangeStruct.Parallel
-	//LOOP END
+	c.Loop.Range = loopStruct.Range
+	c.Loop.Folder = loopStruct.Folder
+	c.Loop.File = loopStruct.File
+	c.Loop.Run = loopStruct.Run
+	c.Loop.Parallel = loopStruct.Parallel
 
 	var taskCall struct {
 		Task string

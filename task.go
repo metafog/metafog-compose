@@ -412,8 +412,6 @@ type ParallelTask struct {
 }
 
 func (e *Executor) runTaskLoopParallel(ctx context.Context, cmd *taskfile.Cmd, arglist []string) error {
-	//fmt.Println("arglist ", arglist)
-
 	numJobs := len(arglist)
 
 	jobs := make(chan ParallelTask, numJobs)
