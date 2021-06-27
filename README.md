@@ -6,7 +6,7 @@
   <h1>Planetr Compose</h1>
 
   <p>
-    Task manager with support for parallel processing using yaml definition file adapted for parallel processing of <a href="https://planetr.io">Planetr decentralized network<a>.
+  Task manager with parallel processing functionality based on a YAML task definition file designed for <a href="https://planetr.io">Planetr's decentralised network<a>.
   </p>
 
   <p>
