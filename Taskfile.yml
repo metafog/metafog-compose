@@ -1,0 +1,17 @@
+tasks:
+  default:
+    cmds: 
+      - loop:
+        range: [1,10]
+#        kafka: ["localhost:9092", "planetr-topic"]
+#        activemq: ["localhost:61613", "planetr"]
+#        folder: /tmp/test/
+#        folder_watch: /tmp/test/
+#        timer: 1
+#        file: /tmp/web-urls.txt
+        run: mytask
+        parallel: 0
+  
+  mytask:
+    cmds:
+      - echo "My Sample Task - {{.ARG}} {{.INDX}}"

@@ -148,6 +148,7 @@ func getSignalContext() context.Context {
 		sig := <-ch
 		log.Printf("task: signal received: %s", sig)
 		cancel()
+		os.Exit(1)
 	}()
 	return ctx
 }

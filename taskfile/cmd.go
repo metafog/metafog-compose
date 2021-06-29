@@ -9,11 +9,15 @@ type Cmd struct {
 	Cmd    string
 	Silent bool
 	Loop   struct {
-		Range    []int  //iterate start-to-end numbers
-		Folder   string //iterate file names in the folder
-		File     string //iterate line by line in the file
-		Run      string
-		Parallel int
+		Range       []int    //iterate start-to-end numbers
+		Folder      string   //iterate file names in the folder
+		FolderWatch string   //pick new files
+		File        string   //iterate line by line in the file
+		Timer       int      //interval in seconds
+		Activemq    []string //"tcp", "localhost:61616", "topic-name"
+		Kafka       []string //"tcp", "localhost:9092", "topic-name"
+		Run         string
+		Parallel    int
 	}
 	Dcurun      string
 	Task        string
@@ -52,19 +56,27 @@ func (c *Cmd) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	}
 
 	var loopStruct struct {
-		Range    []int
-		Folder   string
-		File     string
-		Emit     string
-		Run      string
-		Parallel int
+		Range       []int
+		Folder      string
+		FolderWatch string `yaml:"folder_watch"`
+		File        string
+		Timer       int
+		Activemq    []string
+		Kafka       []string
+		Run         string
+		Parallel    int
 	}
 	if err := unmarshal(&loopStruct); err != nil {
 		return err
 	}
+
 	c.Loop.Range = loopStruct.Range
 	c.Loop.Folder = loopStruct.Folder
+	c.Loop.FolderWatch = loopStruct.FolderWatch
 	c.Loop.File = loopStruct.File
+	c.Loop.Timer = loopStruct.Timer
+	c.Loop.Activemq = loopStruct.Activemq
+	c.Loop.Kafka = loopStruct.Kafka
 	c.Loop.Run = loopStruct.Run
 	c.Loop.Parallel = loopStruct.Parallel
 

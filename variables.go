@@ -96,7 +96,11 @@ func (e *Executor) compiledTask(call taskfile.Call, evaluateShVars bool) (*taskf
 
 			new.Cmds[i].Loop.Range = cmd.Loop.Range
 			new.Cmds[i].Loop.Folder = cmd.Loop.Folder
+			new.Cmds[i].Loop.FolderWatch = cmd.Loop.FolderWatch
 			new.Cmds[i].Loop.File = cmd.Loop.File
+			new.Cmds[i].Loop.Timer = cmd.Loop.Timer
+			new.Cmds[i].Loop.Activemq = cmd.Loop.Activemq
+			new.Cmds[i].Loop.Kafka = cmd.Loop.Kafka
 			new.Cmds[i].Loop.Run = cmd.Loop.Run
 			new.Cmds[i].Loop.Parallel = cmd.Loop.Parallel
 		}

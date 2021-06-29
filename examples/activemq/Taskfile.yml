@@ -1,0 +1,20 @@
+vars:
+  DOCKER_IMAGE: docker.io/planetrio/chrome-headless
+
+tasks:
+  default:
+    cmds: 
+      - loop:
+        activemq: ["localhost:61613", "planetr"]
+        run: capture
+        parallel: 2
+  
+  capture:
+    cmds:
+      - echo "Capture screenshot - {{.ARG}}"
+      - |
+        DCUID=`planetr dcu-run -w {{.DOCKER_IMAGE}} g.medium`
+        planetr dcu-exec $DCUID "chrm --no-sandbox --screenshot --hide-scrollbars {{.ARG}}"
+        planetr dcu-cp-from $DCUID /usr/src/screenshot.png ./screen-{{.INDX}}.png
+        planetr dcu-rm $DCUID
+      - echo "Capture screenshot - {{.ARG}} done."

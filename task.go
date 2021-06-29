@@ -1,12 +1,9 @@
 package task
 
 import (
-	"bufio"
 	"context"
 	"fmt"
 	"io"
-	"io/ioutil"
-	"log"
 	"os"
 	"strconv"
 	"sync"
@@ -22,9 +19,6 @@ import (
 
 	"golang.org/x/sync/errgroup"
 )
-
-const LOOPARG = "ARG"
-const LOOPINDX = "INDX"
 
 const (
 	// MaximumTaskCall is the max number of times a task can be called.
@@ -56,8 +50,6 @@ type Executor struct {
 	Compiler    compiler.Compiler
 	Output      output.Output
 	OutputStyle string
-
-	taskvars *taskfile.Vars
 
 	concurrencySemaphore chan struct{}
 	taskCallCount        map[string]*int32
@@ -94,13 +86,19 @@ func (e *Executor) Run(ctx context.Context, calls ...taskfile.Call) error {
 	g, ctx := errgroup.WithContext(ctx)
 	for _, c := range calls {
 		c := c
-		if e.Parallel {
-			g.Go(func() error { return e.RunTask(ctx, c) })
-		} else {
-			if err := e.RunTask(ctx, c); err != nil {
-				return err
+		/*
+			if e.Parallel {
+				g.Go(func() error { return e.RunTask(ctx, c) })
+			} else {
+				if err := e.RunTask(ctx, c); err != nil {
+					return err
+				}
 			}
+		*/
+		if err := e.RunTask(ctx, c); err != nil {
+			return err
 		}
+
 	}
 	return g.Wait()
 }
@@ -289,8 +287,8 @@ func (e *Executor) runCommand(ctx context.Context, t *taskfile.Task, call taskfi
 
 	//ARGS
 	if t.Vars != nil {
-		arg := t.Vars.Mapping[LOOPARG].Static
-		indx, _ := strconv.Atoi(t.Vars.Mapping[LOOPINDX].Static)
+		arg := t.Vars.Mapping[LOOP_ARG].Static
+		indx, _ := strconv.Atoi(t.Vars.Mapping[LOOP_INDX].Static)
 		vars := e.addVars(ctx, cmd, arg, indx)
 
 		cmd.Vars = vars
@@ -346,7 +344,12 @@ func (e *Executor) runCommand(ctx context.Context, t *taskfile.Task, call taskfi
 		return err
 
 	case len(cmd.Loop.Run) > 0 &&
-		(len(cmd.Loop.File) > 0 || len(cmd.Loop.Folder) > 0 ||
+		(len(cmd.Loop.File) > 0 ||
+			len(cmd.Loop.Folder) > 0 ||
+			len(cmd.Loop.FolderWatch) > 0 ||
+			cmd.Loop.Timer > 0 ||
+			len(cmd.Loop.Activemq) > 0 ||
+			len(cmd.Loop.Kafka) > 0 ||
 			(len(cmd.Loop.Range) == 2 && cmd.Loop.Range[1] >= cmd.Loop.Range[0])):
 		reacquire := e.releaseConcurrencyLimit()
 		defer reacquire()
@@ -360,127 +363,6 @@ func (e *Executor) runCommand(ctx context.Context, t *taskfile.Task, call taskfi
 	default:
 		return nil
 	}
-}
-
-func (e *Executor) loopTasks(ctx context.Context, cmd *taskfile.Cmd) error {
-
-	arglist := []string{}
-
-	switch {
-	case len(cmd.Loop.Range) == 2:
-		for i := cmd.Loop.Range[0]; i <= cmd.Loop.Range[1]; i++ {
-			arglist = append(arglist, strconv.Itoa(i))
-		}
-	case len(cmd.Loop.Folder) > 0:
-		items, _ := ioutil.ReadDir(cmd.Loop.Folder)
-		for _, item := range items {
-			if !item.IsDir() {
-				arglist = append(arglist, item.Name())
-			}
-		}
-	case len(cmd.Loop.File) > 0:
-		file, err := os.Open(cmd.Loop.File)
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer file.Close()
-		scanner := bufio.NewScanner(file)
-		for scanner.Scan() {
-			arglist = append(arglist, scanner.Text())
-		}
-	}
-
-	var err error
-	if cmd.Loop.Parallel > 1 {
-		err = e.runTaskLoopParallel(ctx, cmd, arglist)
-	} else {
-		err = e.runTaskLoopSequential(ctx, cmd, arglist)
-	}
-
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-type ParallelTask struct {
-	Ctx  context.Context
-	Call taskfile.Call
-}
-
-func (e *Executor) runTaskLoopParallel(ctx context.Context, cmd *taskfile.Cmd, arglist []string) error {
-	numJobs := len(arglist)
-
-	jobs := make(chan ParallelTask, numJobs)
-	results := make(chan bool, numJobs)
-
-	//Start workers
-	for w := 1; w <= cmd.Loop.Parallel; w++ {
-		go e.runTaskLoopParallelWorker(jobs, results)
-	}
-
-	for indx, arg := range arglist {
-
-		//ARGS
-		vars := e.addVars(ctx, cmd, arg, indx)
-		//ARGS
-
-		ptask := ParallelTask{
-			Ctx:  ctx,
-			Call: taskfile.Call{Task: cmd.Loop.Run, Vars: vars},
-		}
-
-		jobs <- ptask
-	}
-	close(jobs)
-
-	//wait for completion
-	for a := 0; a < numJobs; a++ {
-		<-results
-	}
-
-	return nil
-}
-
-func (e *Executor) runTaskLoopParallelWorker(tasks <-chan ParallelTask, results chan<- bool) {
-	for task := range tasks {
-		err := e.RunTask(task.Ctx, task.Call)
-		if err != nil {
-			fmt.Println("Err: ", err)
-		}
-
-		results <- true
-	}
-}
-
-func (e *Executor) runTaskLoopSequential(ctx context.Context, cmd *taskfile.Cmd, arglist []string) error {
-
-	for indx, arg := range arglist {
-		//ARGS
-		vars := e.addVars(ctx, cmd, arg, indx)
-		//ARGS
-
-		err := e.RunTask(ctx, taskfile.Call{Task: cmd.Loop.Run, Vars: vars})
-		if err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-func (e *Executor) addVars(ctx context.Context, cmd *taskfile.Cmd, arg string, indx int) *taskfile.Vars {
-
-	vars := &taskfile.Vars{}
-	vars.Mapping = make(map[string]taskfile.Var)
-
-	vars.Keys = append(vars.Keys, LOOPARG)
-	vars.Mapping[LOOPARG] = taskfile.Var{Static: arg}
-
-	vars.Keys = append(vars.Keys, LOOPINDX)
-	vars.Mapping[LOOPINDX] = taskfile.Var{Static: strconv.Itoa(indx + 1)}
-
-	return vars
 }
 
 func getEnviron(t *taskfile.Task) []string {

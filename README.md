@@ -32,6 +32,7 @@ Clone the repository.
 ```
 $ git clone https://github.com/planetrio/planetr-compose
 $ cd planetr-compose
+$ go mod tidy
 $ go run cmd/task/task.go 
 ```
 
@@ -88,6 +89,8 @@ Iterate through numbers 1-100 and run ```task1```.
   parallel: 2
 ```
 
+Parameters: ```range: [<start>, <end>]``` (Both are inclusive)
+
 ### Folder
 
 Iterate through all files in the folder (ignore sub folders) and run ```task1```.
@@ -101,6 +104,9 @@ Iterate through all files in the folder (ignore sub folders) and run ```task1```
   parallel: 2
 ```
 
+Parameters: ```folder: <folder-path>```
+
+
 ### File
 
 Iterate through each line in the file and run ```task1```. 
@@ -113,6 +119,77 @@ Iterate through each line in the file and run ```task1```.
   run: task1
   parallel: 2
 ```
+
+Parameters: ```file: <file-path>```
+
+
+### Timer
+
+Run a timer with ```seconds``` interval and run ```task1```. 
+
+```ARG``` will be the time of that execution.
+
+```
+- loop:
+  timer: 3
+  run: task1
+  parallel: 2
+```
+
+Parameters: ```timer: <interval-in-seconds>```
+
+> This will never end. You have to exit the process by Ctrl+C.
+
+### FolderWatch
+
+Monitor a folder for new files and run ```task1```.
+
+```ARG``` will be the new file path.
+
+```
+- loop:
+  folder_watch: /tmp/
+  run: task1
+  parallel: 2
+```
+
+Parameters: ```folder_watch: <folder-path>```
+
+> This will never end. You have to exit the process by Ctrl+C.
+
+### ActiveMQ
+
+Subscribe to ActiveMQ topic and run ```task1```.
+
+```ARG``` will be the message body.
+
+```
+- loop:
+  activemq: ["localhost:61613", "planetr"]
+  run: task1
+  parallel: 2
+```
+
+Parameters: ```activemq: [<connection-url>, <topic-name>]```
+
+> This will never end. You have to exit the process by Ctrl+C.
+
+### Kafka
+
+Subscribe to Kafka messages and run ```task1```.
+
+```ARG``` will be the message body.
+
+```
+- loop:
+  kafka: ["localhost:9092", "planetr-topic"]
+  run: task1
+  parallel: 2
+```
+
+Parameters: ```kafka: [<connection-url>, <topic-name>]```
+
+> This will never end. You have to exit the process by Ctrl+C.
 
 ## Examples
 
