@@ -76,20 +76,45 @@ Here, mytask will be executed in parallel with concurrency of 5. Loop command wi
 
 ## Loop Options 
 
+  - [Range](#range)
+  - [List](#list)
+  - [Folder](#folder)
+  - [File](#file)
+  - [Timer](#timer)
+  - [FolderWatch](#folderwatch)
+  - [ActiveMQ](#activemq)
+  - [Kafka](#kafka)
+
+
 ### Range
 
-Iterate through numbers 1-100 and run ```task1```. 
+Iterate through numbers <start>-<end> and run ```task```. 
 
-```ARG``` will be the file number within the range.
+```ARG``` will be the number in the range.
 
 ```
 - loop:
   range: [1, 100] 
   run: task1
-  parallel: 2
+  parallel: 0
 ```
 
 Parameters: ```range: [<start>, <end>]``` (Both are inclusive)
+
+### List
+
+Iterate through a list of values and run ```task```. 
+
+```ARG``` will be the value in the list.
+
+```
+- loop:
+  list: ["Orange", "Apple"] 
+  run: task1
+  parallel: 0
+```
+
+Parameters: ```list: [<value>, ...]```
 
 ### Folder
 
@@ -101,7 +126,7 @@ Iterate through all files in the folder (ignore sub folders) and run ```task1```
 - loop:
   folder: /tmp/
   run: task1
-  parallel: 2
+  parallel: 0
 ```
 
 Parameters: ```folder: <folder-path>```
