@@ -56,6 +56,8 @@ func (e *Executor) loopTasks(ctx context.Context, cmd *taskfile.Cmd) error {
 	switch {
 	case len(cmd.Loop.Range) == 2:
 		return e.runLoopRange(ctx, cmd, pool)
+	case len(cmd.Loop.List) > 0:
+		return e.runLoopList(ctx, cmd, pool)
 	case len(cmd.Loop.Folder) > 0:
 		return e.runLoopFolder(ctx, cmd, pool)
 	case len(cmd.Loop.FolderWatch) > 0:
@@ -87,6 +89,22 @@ func (e *Executor) runLoopRange(ctx context.Context, cmd *taskfile.Cmd, pool *wo
 		}
 		pool.Submit(&ptask)
 		indx++
+	}
+	return nil
+}
+
+func (e *Executor) runLoopList(ctx context.Context, cmd *taskfile.Cmd, pool *worker.Pool) error {
+	fmt.Println("Loop > List", cmd.Loop.List)
+
+	for i, s := range cmd.Loop.List {
+		//ARGS
+		vars := e.addVars(ctx, cmd, s, i)
+		ptask := ParallelTask{
+			Ctx:  ctx,
+			Call: taskfile.Call{Task: cmd.Loop.Run, Vars: vars},
+			e:    e,
+		}
+		pool.Submit(&ptask)
 	}
 	return nil
 }

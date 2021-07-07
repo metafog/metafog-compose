@@ -10,6 +10,7 @@ type Cmd struct {
 	Silent bool
 	Loop   struct {
 		Range       []int    //iterate start-to-end numbers
+		List        []string //iterate through these values comma separated
 		Folder      string   //iterate file names in the folder
 		FolderWatch string   //pick new files
 		File        string   //iterate line by line in the file
@@ -57,6 +58,7 @@ func (c *Cmd) UnmarshalYAML(unmarshal func(interface{}) error) error {
 
 	var loopStruct struct {
 		Range       []int
+		List        []string
 		Folder      string
 		FolderWatch string `yaml:"folder_watch"`
 		File        string
@@ -71,6 +73,7 @@ func (c *Cmd) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	}
 
 	c.Loop.Range = loopStruct.Range
+	c.Loop.List = loopStruct.List
 	c.Loop.Folder = loopStruct.Folder
 	c.Loop.FolderWatch = loopStruct.FolderWatch
 	c.Loop.File = loopStruct.File

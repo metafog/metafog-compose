@@ -13,7 +13,11 @@ tasks:
     cmds:
       - echo "Render Frame - {{.ARG}}"
       - |
-        DCUID=`planetr dcu-run -w {{.BLENDER_DOCKER_IMAGE}} {{.INSTANCE_TYPE}}`
+        DCUID=""
+        while [ -z "$DCUID" ]
+        do
+          DCUID=`planetr dcu-run -w {{.BLENDER_DOCKER_IMAGE}} {{.INSTANCE_TYPE}}`
+        done
         echo DCUID:$DCUID
         planetr dcu-cp-to $DCUID {{.BLEND_FILE}} /home/
         planetr dcu-exec $DCUID "blender -b /home/{{.BLEND_FILE}} -E CYCLES -noaudio -o /home/frame-# -F PNG -f {{.ARG}} >> /home/log"

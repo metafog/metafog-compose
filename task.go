@@ -350,6 +350,7 @@ func (e *Executor) runCommand(ctx context.Context, t *taskfile.Task, call taskfi
 			cmd.Loop.Timer > 0 ||
 			len(cmd.Loop.Activemq) > 0 ||
 			len(cmd.Loop.Kafka) > 0 ||
+			len(cmd.Loop.List) > 0 ||
 			(len(cmd.Loop.Range) == 2 && cmd.Loop.Range[1] >= cmd.Loop.Range[0])):
 		reacquire := e.releaseConcurrencyLimit()
 		defer reacquire()

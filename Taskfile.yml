@@ -2,7 +2,8 @@ tasks:
   default:
     cmds: 
       - loop:
-        range: [1,10]
+        list: [10, 20, 30, 50, 99]        
+#        range: [1,10]        
 #        kafka: ["localhost:9092", "planetr-topic"]
 #        activemq: ["localhost:61613", "planetr"]
 #        folder: /tmp/test/

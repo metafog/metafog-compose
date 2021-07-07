@@ -95,6 +95,7 @@ func (e *Executor) compiledTask(call taskfile.Call, evaluateShVars bool) (*taskf
 			}
 
 			new.Cmds[i].Loop.Range = cmd.Loop.Range
+			new.Cmds[i].Loop.List = cmd.Loop.List
 			new.Cmds[i].Loop.Folder = cmd.Loop.Folder
 			new.Cmds[i].Loop.FolderWatch = cmd.Loop.FolderWatch
 			new.Cmds[i].Loop.File = cmd.Loop.File
