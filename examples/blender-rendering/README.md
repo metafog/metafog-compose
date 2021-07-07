@@ -9,13 +9,16 @@ Arguements to the composer are:
 * ```INSTANCE_TYPE``` - Planetr DCU instance type.
 * ```BLEND_FILE``` - Blender model file.
 
+Clone this repo. Copy your blend file (say myblend.blend) to this folder.
+
 ```shell
-$ planetr-compose BLEND_FILE=/temp/animation.blend INSTANCE_TYPE=g.4xlarge 
+$ cd <repo-folder>/examples/blender-rendering/
+$ <repo-folder>/bin/planetr-compose BLEND_FILE=mymodel.blend INSTANCE_TYPE=g.4xlarge
 ```
 
 Composer YAML file is using ```range``` option of the ```loop```. Change the start and end frame as neeeded.
 
-Yaml file snippet:
+[Yaml file](Taskfile.yml) snippet:
 
 ```
 vars:
