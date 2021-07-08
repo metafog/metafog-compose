@@ -13,12 +13,7 @@ tasks:
     cmds:
       - echo "Capture screenshot - {{.ARG}}"
       - |
-        DCUID=""
-        while [ -z "$DCUID" ]
-        do
-          DCUID=`planetr dcu-run -w {{.DOCKER_IMAGE}} g.medium`
-        done
-        echo DCUID:$DCUID
+        DCUID=`planetr dcu-run -w {{.DOCKER_IMAGE}} g.medium`
         planetr dcu-exec $DCUID "chrm --no-sandbox --screenshot --hide-scrollbars {{.ARG}}"
         planetr dcu-cp-from $DCUID /usr/src/screenshot.png ./screen-{{.INDX}}.png
         planetr dcu-rm $DCUID
