@@ -24,3 +24,5 @@
 tags
 
 /tmp
+internal/output/output_test.go
+.DS_Store

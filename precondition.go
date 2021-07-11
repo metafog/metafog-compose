@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 
-	"github.com/go-task/task/v3/internal/execext"
-	"github.com/go-task/task/v3/internal/logger"
-	"github.com/go-task/task/v3/taskfile"
+	"github.com/planetrio/planetr-compose/internal/execext"
+	"github.com/planetrio/planetr-compose/internal/logger"
+	"github.com/planetrio/planetr-compose/taskfile"
 )
 
 var (

@@ -5,8 +5,8 @@ import (
 	"sort"
 	"text/tabwriter"
 
-	"github.com/go-task/task/v3/internal/logger"
-	"github.com/go-task/task/v3/taskfile"
+	"github.com/planetrio/planetr-compose/internal/logger"
+	"github.com/planetrio/planetr-compose/taskfile"
 )
 
 // PrintTasksHelp prints help os tasks that have a description

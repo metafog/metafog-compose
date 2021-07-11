@@ -1,0 +1,17 @@
+vars:
+  PLANETRFUNCID: 
+    sh: planetr func-create crawler.wasm
+
+tasks:
+  default:
+    cmds: 
+      - loop:
+        file: urls.txt 
+        run: crawl-link
+        parallel: 5
+      - planetr func-rm {{.PLANETRFUNCID}}
+
+  crawl-link:
+    cmds:
+      - echo "Webpage Link Crawler - {{.ARG}}"
+      - planetr func-run {{.PLANETRFUNCID}} -a "{\"url\":\"{{.ARG}}\"}" -p > {{.INDX}}.json

@@ -8,14 +8,14 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/go-task/task/v3/internal/compiler"
-	compilerv3 "github.com/go-task/task/v3/internal/compiler/v3"
-	"github.com/go-task/task/v3/internal/execext"
-	"github.com/go-task/task/v3/internal/logger"
-	"github.com/go-task/task/v3/internal/output"
-	"github.com/go-task/task/v3/internal/summary"
-	"github.com/go-task/task/v3/taskfile"
-	"github.com/go-task/task/v3/taskfile/read"
+	"github.com/planetrio/planetr-compose/internal/compiler"
+	compilerv3 "github.com/planetrio/planetr-compose/internal/compiler/v3"
+	"github.com/planetrio/planetr-compose/internal/execext"
+	"github.com/planetrio/planetr-compose/internal/logger"
+	"github.com/planetrio/planetr-compose/internal/output"
+	"github.com/planetrio/planetr-compose/internal/summary"
+	"github.com/planetrio/planetr-compose/taskfile"
+	"github.com/planetrio/planetr-compose/taskfile/read"
 
 	"golang.org/x/sync/errgroup"
 )
@@ -355,7 +355,7 @@ func (e *Executor) runCommand(ctx context.Context, t *taskfile.Task, call taskfi
 		reacquire := e.releaseConcurrencyLimit()
 		defer reacquire()
 
-		err := e.loopTasks(ctx, cmd)
+		err := e.loopTasks(ctx, cmd, t)
 		if err != nil {
 			return err
 		}

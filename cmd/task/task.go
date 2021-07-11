@@ -9,13 +9,14 @@ import (
 	"path/filepath"
 	"strings"
 	"syscall"
+	"time"
 
 	"github.com/spf13/pflag"
 
-	"github.com/go-task/task/v3"
-	"github.com/go-task/task/v3/args"
-	"github.com/go-task/task/v3/internal/logger"
-	"github.com/go-task/task/v3/taskfile"
+	task "github.com/planetrio/planetr-compose"
+	"github.com/planetrio/planetr-compose/args"
+	"github.com/planetrio/planetr-compose/internal/logger"
+	"github.com/planetrio/planetr-compose/taskfile"
 )
 
 const usage = `Usage: planetr-compose [-t taskfile] [task...]
@@ -118,10 +119,15 @@ func main() {
 		ctx = getSignalContext()
 	}
 
+	tBeg := time.Now()
 	if err := e.Run(ctx, calls...); err != nil {
 		e.Logger.Errf(logger.Red, "%v", err)
 		os.Exit(1)
 	}
+	tEnd := time.Now()
+
+	diff := tEnd.Sub(tBeg)
+	fmt.Println("Finished in:", diff)
 }
 
 func getArgs() (tasksAndVars, cliArgs []string) {

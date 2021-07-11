@@ -8,8 +8,8 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/go-task/task/v3/internal/templater"
-	"github.com/go-task/task/v3/taskfile"
+	"github.com/planetrio/planetr-compose/internal/templater"
+	"github.com/planetrio/planetr-compose/taskfile"
 )
 
 var (

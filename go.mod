@@ -1,4 +1,4 @@
-module github.com/go-task/task/v3
+module github.com/planetrio/planetr-compose
 
 require (
 	github.com/ahmetask/worker v1.3.1

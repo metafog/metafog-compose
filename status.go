@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/go-task/task/v3/internal/execext"
-	"github.com/go-task/task/v3/internal/logger"
-	"github.com/go-task/task/v3/internal/status"
-	"github.com/go-task/task/v3/taskfile"
+	"github.com/planetrio/planetr-compose/internal/execext"
+	"github.com/planetrio/planetr-compose/internal/logger"
+	"github.com/planetrio/planetr-compose/internal/status"
+	"github.com/planetrio/planetr-compose/taskfile"
 )
 
 // Status returns an error if any the of given tasks is not up-to-date

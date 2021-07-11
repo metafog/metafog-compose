@@ -3,8 +3,8 @@ package summary
 import (
 	"strings"
 
-	"github.com/go-task/task/v3/internal/logger"
-	"github.com/go-task/task/v3/taskfile"
+	"github.com/planetrio/planetr-compose/internal/logger"
+	"github.com/planetrio/planetr-compose/taskfile"
 )
 
 func PrintTasks(l *logger.Logger, t *taskfile.Taskfile, c []taskfile.Call) {

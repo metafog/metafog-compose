@@ -8,11 +8,11 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/go-task/task/v3/internal/compiler"
-	"github.com/go-task/task/v3/internal/execext"
-	"github.com/go-task/task/v3/internal/logger"
-	"github.com/go-task/task/v3/internal/templater"
-	"github.com/go-task/task/v3/taskfile"
+	"github.com/planetrio/planetr-compose/internal/compiler"
+	"github.com/planetrio/planetr-compose/internal/execext"
+	"github.com/planetrio/planetr-compose/internal/logger"
+	"github.com/planetrio/planetr-compose/internal/templater"
+	"github.com/planetrio/planetr-compose/taskfile"
 )
 
 var _ compiler.Compiler = &CompilerV3{}

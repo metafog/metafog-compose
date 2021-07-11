@@ -20,7 +20,6 @@ type Cmd struct {
 		Run         string
 		Parallel    int
 	}
-	Dcurun      string
 	Task        string
 	Vars        *Vars
 	IgnoreError bool

@@ -12,7 +12,7 @@ import (
 
 	"github.com/ahmetask/worker"
 	"github.com/go-stomp/stomp"
-	"github.com/go-task/task/v3/taskfile"
+	"github.com/planetrio/planetr-compose/taskfile"
 	"github.com/radovskyb/watcher"
 	kafka "github.com/segmentio/kafka-go"
 )
@@ -39,7 +39,7 @@ func (j *ParallelTask) Do() {
 	}
 }
 
-func (e *Executor) loopTasks(ctx context.Context, cmd *taskfile.Cmd) error {
+func (e *Executor) loopTasks(ctx context.Context, cmd *taskfile.Cmd, t *taskfile.Task) error {
 
 	threads := cmd.Loop.Parallel
 	if threads < 1 {
@@ -87,6 +87,7 @@ func (e *Executor) runLoopRange(ctx context.Context, cmd *taskfile.Cmd, pool *wo
 			Call: taskfile.Call{Task: cmd.Loop.Run, Vars: vars},
 			e:    e,
 		}
+
 		pool.Submit(&ptask)
 		indx++
 	}
