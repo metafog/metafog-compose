@@ -1,12 +1,9 @@
 <div align="center">
-  <a href="https://planetr.io">
-    <img src="planetr-compose-white.png"/>
-  </a>
 
-  <h1>Planetr Compose</h1>
+  <h1>Metafog Compose</h1>
 
   <p>
-  Task manager with parallel processing functionality based on a YAML task definition file designed for <a href="https://planetr.io">Planetr's decentralised network<a>. See <a href="examples/">examples</a> to learn more.
+  Task manager with parallel processing functionality based on a YAML task definition file designed for <a href="https://metafog.io">Metafog's decentralised network<a>. See <a href="examples/">examples</a> to learn more.
   </p>
 
 </div>
@@ -23,15 +20,15 @@ This is a trimmed and adapted version of the above library in order to support p
 
 Mac, Windows and Linux binaries are in [bin](bin/) folder. They are statically built without any dependancies.
 
-> Note: Binaries are bundled with [Planetr Gateway](https://planetr.io/) installers.
+> Note: Binaries are bundled with [Metafog Gateway](https://metafog.io/) installers.
 
 ## Build from source
 
 Clone the repository.
 
 ```
-$ git clone https://github.com/planetrio/planetr-compose
-$ cd planetr-compose
+$ git clone https://github.com/metafog/metafog-compose
+$ cd metafog-compose
 $ go mod tidy
 $ go run cmd/task/task.go 
 ```
@@ -190,7 +187,7 @@ Subscribe to ActiveMQ topic and run ```task1```.
 
 ```
 - loop:
-  activemq: ["localhost:61613", "planetr"]
+  activemq: ["localhost:61613", "metafog"]
   run: task1
   parallel: 2
 ```
@@ -207,7 +204,7 @@ Subscribe to Kafka messages and run ```task1```.
 
 ```
 - loop:
-  kafka: ["localhost:9092", "planetr-topic"]
+  kafka: ["localhost:9092", "metafog-topic"]
   run: task1
   parallel: 2
 ```
@@ -218,4 +215,4 @@ Parameters: ```kafka: [<connection-url>, <topic-name>]```
 
 ## Examples
 
-There are many [examples](./examples/) for you to get started with planetr-compose.
+There are many [examples](./examples/) for you to get started with metafog-compose.
